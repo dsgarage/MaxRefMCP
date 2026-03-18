@@ -102,6 +102,10 @@ claude mcp add --transport http --scope project max-ref "https://maxrefmcp-produ
 
 MaxRefMCP（調査・設計）と MaxMCP（パッチ操作）を両方接続すると、調査から実装まで一気通貫で AI と協業できます。
 
+## 作者
+
+**dsgarage** — [@dsgarage](https://x.com/dsgarage)
+
 ## ライセンス
 
 MIT
