@@ -1,0 +1,38 @@
+name: Sync Issue to Dev
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  sync-to-dev:
+    runs-on: ubuntu-latest
+    # synced-from-dev ラベルが付いている場合はスキップ（ループ防止）
+    if: "!contains(github.event.issue.labels.*.name, 'synced-from-dev')"
+    steps:
+      - name: Create issue in Dev repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.CROSS_REPO_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const labels = issue.labels.map(l => l.name);
+            labels.push('synced-from-public');
+
+            const body = `> この Issue は [MaxRefMCP#${issue.number}](${issue.html_url}) から同期されました。\n\n${issue.body || ''}`;
+
+            const created = await github.rest.issues.create({
+              owner: 'dsgarage',
+              repo: 'MaxRefMCP_Dev',
+              title: issue.title,
+              body: body,
+              labels: labels
+            });
+
+            // 元の Issue にリンクコメントを追加
+            await github.rest.issues.createComment({
+              owner: 'dsgarage',
+              repo: 'MaxRefMCP',
+              issue_number: issue.number,
+              body: `Dev リポジトリに同期しました: dsgarage/MaxRefMCP_Dev#${created.data.number}`
+            });
