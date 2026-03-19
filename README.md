@@ -1,5 +1,7 @@
 # MaxRefMCP
 
+[English](README_en.md) | 日本語
+
 **Max/MSP・Max4Live 日本語リファレンス MCP サーバー**
 
 AI から Max/MSP のオブジェクトリファレンスを日本語で検索・参照できる [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) サーバーです。
